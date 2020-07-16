@@ -1,0 +1,54 @@
+\documentclass[tikz]{standalone}
+% https://latexdraw.com/draw-a-sphere-in-latex-using-tikz/
+% https://tex.stackexchange.com/questions/348609/draw-a-3d-sphere-with-radius-with-tikz/348623
+% https://tex.stackexchange.com/questions/106425/rotating-around-axes-with-tikz-3dplot
+% https://tex.stackexchange.com/questions/27515/navigation-system-coordinates-in-tikz-3dplot
+% https://tex.stackexchange.com/questions/66094/tikz-dash-dash-plus-plus
+\usepackage{pgfplots}
+\usepackage{tikz-3dplot}
+\tdplotsetmaincoords{80}{125}
+\pgfplotsset{compat=newest}
+\begin{document}
+\begin{tikzpicture}[tdplot_main_coords, scale = 2.5]
+\coordinate (P) at ({sqrt(3)/4},0.75,0.5);
+
+\shade[ball color = lightgray, opacity = 0.5] (0,0,0) circle (1cm);
+
+\tdplotsetrotatedcoords{0}{0}{0}; % Equator
+\draw[dashed, tdplot_rotated_coords, gray] (0,0,0) circle (1);
+
+\tdplotsetrotatedcoords{0}{0}{0}; % Arc BC
+\draw[tdplot_rotated_coords, black] (1,0,0) arc (0:90:1);
+
+\tdplotsetrotatedcoords{90}{90}{180}; % Arc ABD
+\draw[tdplot_rotated_coords, black] (1,0,0) arc (0:180:1);
+
+\tdplotsetrotatedcoords{0}{90}{0}; % Arc ACD
+\draw[tdplot_rotated_coords, black] (1,0,0) arc (0:180:1);
+
+% Cartesian coordinate axes
+\draw[thin, -stealth, gray] (0,0,0) -- (1.80,0,0) node[below left] {$x$};
+\draw[thin, -stealth, gray] (0,0,0) -- (0,1.30,0) node[below right] {$y$};
+\draw[thin, -stealth, gray] (0,0,0) -- (0,0,1.30) node[above] {$z$};
+\draw[dashed, gray] (0,0,0) -- (0,0,-1);
+
+% Spherical coordinates
+\draw[thin, -stealth, gray] (0,0,0) -- (P) node[above] {$(r,\theta, \phi)$};
+\draw[thin, dashed, gray] (P) --++ (0,0,-0.5) -- (0,0,0);
+\draw[thin, -stealth, gray] (0.2,0,0) arc (0:60:0.2); % Azimuth angle
+
+\tdplotsetrotatedcoords{330}{270}{0};
+\draw[tdplot_rotated_coords, thin, -stealth, gray] (0.2,0,0) arc (0:60:0.2); % Polar angle
+
+% Spherical coordinate labels
+\draw[gray] ({sqrt(3)/8},0.375,0.25) node[right] {$r$};
+\draw[gray] ({sqrt(3)/10},0.1,0) node[below=-2] {$\theta$};
+\draw[gray] (0.005,{sqrt(3)/20},{sqrt(3)/10}) node[above=-2] {$\phi$};
+
+% Vertices
+\draw[fill = lightgray!50] (1,0,0) circle (0.5pt) node[below left] {$B$};
+\draw[fill = lightgray!50] (0,1,0) circle (0.5pt) node[below right] {$C$};
+\draw[fill = lightgray!50] (0,0,1) circle (0.5pt) node[above] {$A$};
+\draw[fill = lightgray!50] (0,0,-1) circle (0.5pt) node[below] {$D$};
+\end{tikzpicture}
+\end{document}
